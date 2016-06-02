@@ -63,11 +63,15 @@ The plugin will transform this sequence to display the following diagram:
 
 You can parameterize the plugin to suit your usage
 
-| Name     | Value        | Use   |
-| -------- |:------------:| -----:|
-| enabled  | true / false | plugin activation |
-| theme    | simple / hand | diagram theme |
-| align    | left / center / right | diagrams position |
+```yaml
+enabled: true
+theme: simple # hand
+align: center
+```
+
+- `enabled : true / false` Define if the plugin is active
+- `theme : simple / hand` Define the sequence diagrams theme
+- `align : left / center / right` Define the diagrams position
 
 # Updating
 
