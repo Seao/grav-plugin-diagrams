@@ -30,40 +30,82 @@ class DiagramsPlugin extends Plugin
 
         if ($config->get('enabled')) {
 
+            // Get initial content
             $raw = $page->getRawContent();
 
-            $function = function ($matches) use (&$page, &$twig, &$config) {
+            /*****************************
+             * SEQUENCE PART
+             */
+
+            $matchSequence = function ($matches) use (&$page, &$twig, &$config) {
                 // Get the matching content
-                $search = $matches[0];
+                $search_sequence = $matches[0];
 
                 // Remove the tab selector
-                $search = str_replace("[sequence]", "", $search);
-                $search = str_replace("[/sequence]", "", $search);
+                $search_sequence = str_replace("[sequence]", "", $search_sequence);
+                $search_sequence = str_replace("[/sequence]", "", $search_sequence);
 
                 // Creating the replacement structure
                 $replace_header = "<div class=\"diagram\" style=\"text-align:".$this->align."\">";
                 $replace_footer = "</div>";
-                $replace_content = $search;
+                $replace_content = $search_sequence;
                 $replace = "$replace_header" . "$replace_content" . "$replace_footer";
                 
                 return $replace;
             };
 
-            // Get transform result
-            $raw = $this->parseInjectLinks($raw, $function);
+            $raw = $this->parseInjectSequence($raw, $matchSequence);
 
-            // Apply modification on the page content
+            /*****************************
+             * FLOW PART
+             */
+
+            $matchFlow = function ($matches) use (&$page, &$twig, &$config) {
+                static $cpt = 0;
+
+                // Get the matching content
+                $search_flow = $matches[0];
+
+                // Remove the tab selector
+                $search_flow = str_replace("[flow]", "", $search_flow);
+                $search_flow = str_replace("[/flow]", "", $search_flow);
+
+                // Creating the replacement structure
+                $replace_header = "<div id=\"canvas_".$cpt."\" class=\"flow\" style=\"text-align:".$this->align."\">";
+                $cpt++;
+                $replace_footer = "</div>";
+                $replace_content = $search_flow;
+                $replace = "$replace_header" . "$replace_content" . "$replace_footer";
+                
+                return $replace;
+            };
+
+            $raw = $this->parseInjectFlow($raw, $matchFlow);
+
+            /*****************************
+             * APPLY CHANGES
+             */
             $page->setRawContent($raw);
         }
     }
 
     /**
-     *  Applies a specific function to the result of the regexp
+     *  Applies a specific function to the result of the sequence's regexp
      */
-    protected function parseInjectLinks($content, $function)
+    protected function parseInjectSequence($content, $function)
     {
         // Regular Expression for selection
         $regex = '/\[sequence\]([\s\S]*?)\[\/sequence\]/';
+        return preg_replace_callback($regex, $function, $content);
+    }
+
+    /**
+     *  Applies a specific function to the result of the flow's regexp
+     */
+    protected function parseInjectFlow($content, $function)
+    {
+        // Regular Expression for selection
+        $regex = '/\[flow\]([\s\S]*?)\[\/flow\]/';
         return preg_replace_callback($regex, $function, $content);
     }
 
@@ -80,12 +122,21 @@ class DiagramsPlugin extends Plugin
         $this->grav['assets']->addJs('plugin://diagrams/js/lodash.min.js');
         $this->grav['assets']->addJs('plugin://diagrams/js/raphael-min.js');
         $this->grav['assets']->addJs('plugin://diagrams/js/sequence-diagram-min.js');
+        $this->grav['assets']->addJs('plugin://diagrams/js/flowchart-latest.js');
 
         $this->theme = $this->config->get('plugins.diagrams.theme');
 
         // Used to start the conversion of the div "diagram" when the page is loaded
         $init = "$(document).ready(function() {
                     $(\".diagram\").sequenceDiagram({theme: '".$this->theme."'});
+
+                    var parent = document.getElementsByClassName(\"flow\");
+                    for(var i=0;i<parent.length;i++) {                
+                        var data = parent[i].innerHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+                        parent[i].innerHTML = \"\";
+                        var chart = flowchart.parse(data);
+                        chart.drawSVG('canvas_'+i);
+                    }
                  });";
         $this->grav['assets']->addInlineJs($init);
     }
