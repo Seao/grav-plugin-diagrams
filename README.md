@@ -1,6 +1,6 @@
 # Grav Diagrams Plugin
 
-`sequence` is a [Grav](http://github.com/getgrav/grav) plugin that adds simple and powerful sequence diagram functionality utilizing the Javascript plugin [js-sequence-diagrams](https://bramp.github.io/js-sequence-diagrams).
+`diagrams` is a [Grav](http://github.com/getgrav/grav) plugin that adds simple and powerful diagrams functionality utilizing the Javascript plugin [js-sequence-diagrams](https://bramp.github.io/js-sequence-diagrams) and [flowchart-js](https://github.com/adrai/flowchart.js).
 
 # Installation
 
@@ -32,6 +32,30 @@ The plugin will transform this sequence to display the following diagram:
 
 <p align="center">
   <img src="assets/sequence.png" width="350"/><br/>
+  <i>Created diagram</i>
+</p>
+
+You can also write your flow diagram as follows:
+
+eg:
+
+	[flow]
+	st=>start: Start plugin
+	e=>end: End
+	op1=>operation: Development
+	sub1=>subroutine: Add features
+	cond=>condition: It is cool?
+	io=>inputoutput: Update for users
+
+	st->op1->cond
+	cond(yes)->io->e
+	cond(no)->sub1(right)->op1
+	[/flow]
+
+The plugin will transform this sequence to display the following diagram:
+
+<p align="center">
+  <img src="assets/flow.png" width="350"/><br/>
   <i>Created diagram</i>
 </p>
 
