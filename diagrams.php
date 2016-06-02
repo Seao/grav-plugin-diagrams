@@ -49,7 +49,11 @@ class DiagramsPlugin extends Plugin
                 return $replace;
             };
 
-            $page->setRawContent($this->parseInjectLinks($raw, $function));
+            // Get transform result
+            $raw = $this->parseInjectLinks($raw, $function);
+
+            // Apply modification on the page content
+            $page->setRawContent($raw);
         }
     }
 
@@ -59,7 +63,7 @@ class DiagramsPlugin extends Plugin
     protected function parseInjectLinks($content, $function)
     {
         // Regular Expression for selection
-        $regex = '/\[sequence\][^\"]*\[\/sequence\]/';
+        $regex = '/\[sequence\]([\s\S]*?)\[\/sequence\]/';
         return preg_replace_callback($regex, $function, $content);
     }
 
