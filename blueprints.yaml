@@ -1,7 +1,7 @@
 name: Diagrams
-version: 1.0.0
-description: "Adds the ability to render diagrams in Markdown"
-icon: asterisk
+version: 1.0.1
+description: "This plugin allows to easily create amazing and powerful diagrams in Markdown"
+icon: edit
 author:
   name: Aurélien Wolz
   email: wolzaurelien@gmail.com
