@@ -1,3 +1,27 @@
-enabled: true
-theme: simple # hand
-align: center
+# General settings
+# ****************
+
+enabled: true	# Plugin activation
+align: center	# Position of diagrams [left, center, right]
+
+# Settings of sequence diagrams
+# ****************
+
+theme: simple # Diagrams' themes [simple, hand]
+
+# Settings of flow diagrams
+# ****************
+
+font:
+  size: 14		# General font size
+  color: black	# General font color
+
+line:
+  color: black	# General color of lines
+
+element:
+  color: black	# General border color of elements
+
+condition:
+  yes: yes		# Default text for the arrows of positive condition
+  no: no		# Default text for the arrows of negative condition

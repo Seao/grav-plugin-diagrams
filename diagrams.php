@@ -116,6 +116,12 @@ class DiagramsPlugin extends Plugin
     {
         // Variables
         $this->theme = $this->config->get('plugins.diagrams.theme');
+        $this->font_size = $this->config->get('plugins.diagrams.font.size');
+        $this->font_color = $this->config->get('plugins.diagrams.font.color');
+        $this->line_color = $this->config->get('plugins.diagrams.line.color');
+        $this->element_color = $this->config->get('plugins.diagrams.line.color');
+        $this->condition_yes = $this->config->get('plugins.diagrams.condition.yes');
+        $this->condition_no = $this->config->get('plugins.diagrams.condition.no');
 
         // Resources for the conversion
         $this->grav['assets']->addJs('plugin://diagrams/js/underscore-min.js');
@@ -123,8 +129,6 @@ class DiagramsPlugin extends Plugin
         $this->grav['assets']->addJs('plugin://diagrams/js/raphael-min.js');
         $this->grav['assets']->addJs('plugin://diagrams/js/sequence-diagram-min.js');
         $this->grav['assets']->addJs('plugin://diagrams/js/flowchart-latest.js');
-
-        $this->theme = $this->config->get('plugins.diagrams.theme');
 
         // Used to start the conversion of the div "diagram" when the page is loaded
         $init = "$(document).ready(function() {
@@ -135,7 +139,25 @@ class DiagramsPlugin extends Plugin
                         var data = parent[i].innerHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
                         parent[i].innerHTML = \"\";
                         var chart = flowchart.parse(data);
-                        chart.drawSVG('canvas_'+i);
+                        chart.drawSVG('canvas_'+i, {
+                            'font-size': ".$this->font_size.",
+                            'font-color': '".$this->font_color."',
+                            'line-color': '".$this->line_color."',
+                            'element-color': '".$this->element_color."',
+                            'yes-text': '".$this->condition_yes."',
+                            'no-text': '".$this->condition_no."',
+
+                            // More informations : http://flowchart.js.org
+                            'flowstate' : {
+                                'simple': {'fill' : '#FFFFFF'},
+                                'positive': {'fill' : '#387EF5'},
+                                'success': { 'fill' : '#9FF781'},
+                                'invalid': {'fill' : '#FA8258'},
+                                'calm': {'fill' : '#11C1F3'},
+                                'royal': {'fill' : '#CF86E9'},
+                                'energized': {'fill' : 'F3FD60'},
+                            }
+                        });
                     }
                  });";
         $this->grav['assets']->addInlineJs($init);

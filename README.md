@@ -42,10 +42,10 @@ eg:
 	[flow]
 	st=>start: Start plugin
 	e=>end: End
-	op1=>operation: Development
-	sub1=>subroutine: Add features
-	cond=>condition: It is cool?
-	io=>inputoutput: Update for users
+	op1=>operation: Development|success
+	sub1=>subroutine: Add features|success
+	cond=>condition: It is cool?|invalid
+	io=>inputoutput: Update for users|calm
 
 	st->op1->cond
 	cond(yes)->io->e
@@ -64,14 +64,34 @@ The plugin will transform this sequence to display the following diagram:
 You can parameterize the plugin to suit your usage
 
 ```yaml
-enabled: true
-theme: simple # hand
-align: center
-```
+# General settings
+# ****************
 
-- `enabled : true / false` Define if the plugin is active
-- `theme : simple / hand` Define the sequence diagrams theme
-- `align : left / center / right` Define the diagrams position
+enabled: true	# Plugin activation
+align: center	# Position of diagrams [left, center, right]
+
+# Settings of sequence diagrams
+# ****************
+
+theme: simple # Diagrams' themes [simple, hand]
+
+# Settings of flow diagrams
+# ****************
+
+font:
+  size: 14		# General font size
+  color: black	# General font color
+
+line:
+  color: black	# General color of lines
+
+element:
+  color: black	# General border color of elements
+
+condition:
+  yes: yes		# Default text for the arrows of positive condition
+  no: no		# Default text for the arrows of negative condition
+```
 
 # Updating
 
