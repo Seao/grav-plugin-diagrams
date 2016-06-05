@@ -142,3 +142,7 @@ Manually updating Diagrams is pretty simple. Here is what you will need to do to
 * Downlaod the new version of the Diagrams plugin from either [GitHub](#).
 * Unzip the zip file in `your/site/user/plugins` and rename the resulting folder to `diagrams`.
 * Clear the Grav cache. The simplest way to do this is by going to the root Grav directory in terminal and typing `bin/grav clear-cache`.
+
+# Improvements to come
+
+- Render diagrams when previewing an article being written with the Grav plugin admin
