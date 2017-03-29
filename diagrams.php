@@ -50,7 +50,7 @@ class DiagramsPlugin extends Plugin
                 $replace_footer = "</div>";
                 $replace_content = $search_sequence;
                 $replace = "$replace_header" . "$replace_content" . "$replace_footer";
-                
+
                 return $replace;
             };
 
@@ -76,11 +76,34 @@ class DiagramsPlugin extends Plugin
                 $replace_footer = "</div>";
                 $replace_content = $search_flow;
                 $replace = "$replace_header" . "$replace_content" . "$replace_footer";
-                
+
                 return $replace;
             };
 
             $raw = $this->parseInjectFlow($raw, $matchFlow);
+
+            /*****************************
+             * MERMAID PART
+             */
+
+            $match_mermaid = function ($matches) use (&$page, &$twig, &$config) {
+                // Get the matching content
+                $search_mermaid = $matches[0];
+
+                // Remove the tab selector
+                $search_mermaid = str_replace("[mermaid]", "", $search_mermaid);
+                $search_mermaid = str_replace("[/mermaid]", "", $search_mermaid);
+
+                // Creating the replacement structure
+                $replace_header = "<div class=\"mermaid\" style=\"text-align:".$this->align."\">";
+                $replace_footer = "</div>";
+                $replace_content = $search_mermaid;
+                $replace = "$replace_header" . "$replace_content" . "$replace_footer";
+
+                return $replace;
+            };
+
+            $raw = $this->parseInjectMermaid($raw, $match_mermaid);
 
             /*****************************
              * APPLY CHANGES
@@ -110,6 +133,16 @@ class DiagramsPlugin extends Plugin
     }
 
     /**
+     *  Applies a specific function to the result of the flow's regexp
+     */
+    protected function parseInjectMermaid($content, $function)
+    {
+        // Regular Expression for selection
+        $regex = '/\[mermaid\]([\s\S]*?)\[\/mermaid\]/';
+        return preg_replace_callback($regex, $function, $content);
+    }
+
+    /**
      * Set needed ressources to display and convert charts
      */
     public function onTwigSiteVariables()
@@ -129,13 +162,17 @@ class DiagramsPlugin extends Plugin
         $this->grav['assets']->addJs('plugin://diagrams/js/raphael-min.js');
         $this->grav['assets']->addJs('plugin://diagrams/js/sequence-diagram-min.js');
         $this->grav['assets']->addJs('plugin://diagrams/js/flowchart-latest.js');
+        $this->grav['assets']->addJs('plugin://diagrams/js/mermaid.min.js');
+        $this->grav['assets']->addCss('plugin://diagrams/css/mermaid.css');
 
         // Used to start the conversion of the div "diagram" when the page is loaded
         $init = "$(document).ready(function() {
+                    mermaid.initialize({startOnLoad:true});
+
                     $(\".diagram\").sequenceDiagram({theme: '".$this->theme."'});
 
                     var parent = document.getElementsByClassName(\"flow\");
-                    for(var i=0;i<parent.length;i++) {                
+                    for(var i=0;i<parent.length;i++) {
                         var data = parent[i].innerHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
                         parent[i].innerHTML = \"\";
                         var chart = flowchart.parse(data);
