@@ -1,3 +1,10 @@
+# v1.0.2
+## 02/04/2017
+
+1. [](#improved)
+    * Added support of mermaid diagrams
+    * Added new parameters related to mermaid diagrams
+
 # v1.0.1
 ## 04/06/2016
 
