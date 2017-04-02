@@ -155,6 +155,7 @@ class DiagramsPlugin extends Plugin
         $this->element_color = $this->config->get('plugins.diagrams.line.color');
         $this->condition_yes = $this->config->get('plugins.diagrams.condition.yes');
         $this->condition_no = $this->config->get('plugins.diagrams.condition.no');
+        $this->gantt_axis = $this->config->get('plugins.diagrams.gantt.axis');
 
         // Resources for the conversion
         $this->grav['assets']->addJs('plugin://diagrams/js/underscore-min.js');
@@ -168,6 +169,9 @@ class DiagramsPlugin extends Plugin
         // Used to start the conversion of the div "diagram" when the page is loaded
         $init = "$(document).ready(function() {
                     mermaid.initialize({startOnLoad:true});
+                    mermaid.ganttConfig = {
+                      axisFormatter: [[\"".$this->gantt_axis."\", function (d){return d.getDay() == 1;}]]
+                    };
 
                     $(\".diagram\").sequenceDiagram({theme: '".$this->theme."'});
 

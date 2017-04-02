@@ -25,3 +25,9 @@ element:
 condition:
   yes: yes		# Default text for the arrows of positive condition
   no: no		# Default text for the arrows of negative condition
+
+# Settings of mermaid
+# ****************
+
+gantt:
+  axis: %d-%m-%Y # Default gantt diagram axis format (https://github.com/d3/d3-3.x-api-reference/blob/master/Time-Formatting.md)
