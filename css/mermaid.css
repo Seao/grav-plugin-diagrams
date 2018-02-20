@@ -122,12 +122,12 @@ text.actor {
   text-height: 14px;
 }
 /* Grid and axis */
-.grid .tick {
+.mermaid .grid .tick {
   stroke: lightgrey;
   opacity: 0.3;
   shape-rendering: crispEdges;
 }
-.grid path {
+.mermaid .grid path {
   stroke-width: 0;
 }
 /* Today line */
