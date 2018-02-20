@@ -1,3 +1,9 @@
+# v1.0.3
+## 20/02/2018
+
+1. [](#bugfix)
+    * Fixed CSS of Mermaid diagrams that could be applied on sequence diagrams (Thank to take4mats)
+
 # v1.0.2
 ## 02/04/2017
 
