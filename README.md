@@ -2,9 +2,11 @@
 
 `diagrams` is a [Grav](http://github.com/getgrav/grav) plugin that adds simple and powerful diagrams functionality utilizing the Javascript plugin [js-sequence-diagrams](https://bramp.github.io/js-sequence-diagrams) and [flowchart-js](https://github.com/adrai/flowchart.js).
 
+⚠️ Not having enough time to devote to this plugin, its development is no longer actively maintained. There will be no additional features developed, however pull requests are accepted and will be treated with pleasure 👍
+
 # Installation
 
-Installing the Diagrams plugin can be done in one of two ways. GPM (Grav Package Manager) installation method enables you to quickly and easily install the plugin with a simple terminal command, while the manual method enables you to do so via a zip file. 
+Installing the Diagrams plugin can be done in one of two ways. GPM (Grav Package Manager) installation method enables you to quickly and easily install the plugin with a simple terminal command, while the manual method enables you to do so via a zip file.
 
 ## GPM Installation (Preferred)
 
@@ -137,7 +139,7 @@ Multiple colors are available for flow diagrams:
 - **royal** : purple, #CF86E9
 - **energized** : yellow, #F3FD60
 
-> Note: You can change colors at the end of the file : diagrams.php 
+> Note: You can change colors at the end of the file : diagrams.php
 
 # Settings
 
@@ -171,7 +173,7 @@ element:
 condition:
   yes: yes		# Default text for the arrows of positive condition
   no: no		# Default text for the arrows of negative condition
-  
+
 # Settings of mermaid
 # ****************
 
@@ -202,7 +204,3 @@ Manually updating Diagrams is pretty simple. Here is what you will need to do to
 * Downlaod the new version of the Diagrams plugin from either [GitHub](#).
 * Unzip the zip file in `your/site/user/plugins` and rename the resulting folder to `diagrams`.
 * Clear the Grav cache. The simplest way to do this is by going to the root Grav directory in terminal and typing `bin/grav clear-cache`.
-
-# Improvements to come
-
-- Render diagrams when previewing an article being written with the Grav plugin admin

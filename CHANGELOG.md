@@ -1,3 +1,9 @@
+# v1.0.4
+## 23/04/2018
+
+1. [](#bugfix)
+    * Fixed Mermaid style sheet that could infer with CSS style (Thank to Goutte)
+
 # v1.0.3
 ## 20/02/2018
 
